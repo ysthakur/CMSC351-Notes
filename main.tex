@@ -1,0 +1,48 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+
+\input{Commands}
+
+\title{CMSC351 Notes}
+\author{A struggling 351 student}
+\date{\today}
+
+% Don't include chapter number in section numbers
+\counterwithout{section}{chapter}
+% Get rid of chapter numbers
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0em}{\normalfont\Huge\bfseries}
+\titlespacing*{\chapter}{0pt}{-19pt}{0pt}
+
+\makeatletter
+\def\app@exe{\immediate\write18}
+\def\inputAllFiles#1{%
+  \app@exe{ls #1/*.tex | xargs cat >> #1/\jobname.tmp}%
+  \InputIfFileExists{#1/\jobname.tmp}{}{}
+  \AtEndDocument{\app@exe{rm -f #1/\jobname.tmp}}}
+\makeatother
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\chapter{Lecture Notes}
+\inputAllFiles{Lec-Notes}
+
+\chapter{Video Notes}
+
+% To make section number start at 0
+\setcounter{section}{-1}
+
+\inputAllFiles{Vid-Notes}
+
+\chapter{Extra Stuff}
+\setcounter{section}{0}
+\inputAllFiles{Extra}
+
+\end{document}
