@@ -1,0 +1,35 @@
+\section{Intro to NP}
+
+Easy and hard problems:
+\begin{itemize}
+    \item Easy problem - Solvable in polynomial time ($O(n), O(n\log n), O(n^2), ...$)\\
+    Most "natural problems" that are in polynomial time have "low degree" polynomial times
+    \item Hard problem - Exponential time ($O(2^n), O(n^n), ...$)\\
+    Most "natural problems" that are in exponential time have "high degree" exponential times
+\end{itemize}
+
+A natural problem is one that comes up in real life or "feels" natural. An unnatural problem doesn't come up in real life and "feels" unnatural.
+
+\subsection*{Traveling Salesman Problem (TSP)}
+
+Salesman needs to find a way to go to all the cities, all connected with roads. There are $(n-1)!$ possible routes, where $n$ is the number of cities.
+
+There are algorithms for this that run in exponential time, but none that run in polynomial time.
+
+\subsection*{The NP class}
+
+\textbf{Definition:} A \textbf{decision problem} is a Yes/No question, e.g. "Is a given number prime?".
+
+\textbf{Definition:} The class \textbf{P} is the set of decision problems that can be solved in polynomial time.
+
+\begin{itemize}
+    \item \textbf{EXP} is the class of problems that can be solved in exponential time
+    \item \textbf{NP} is a class inside EXP
+    \item \textbf{P} is inside NP
+    \item \textbf{NP-complete} is another class inside NP consisting of provably hard problems inside NP (Traveling Salesman Problem is NP-complete)
+\end{itemize}
+
+Open question in Computer Science: Does P = NP?\\
+If any NP-complete problem can be proved to be in P, then all problems in NP are in P.
+
+Most "natural" problems inside NP are either in P or NP-complete.

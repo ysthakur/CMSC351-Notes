@@ -1,0 +1,60 @@
+\section{Graphs}
+
+Notation: Graph $G = (V, E)$, where $V$ is set of vertices, $E$ is set of edges, and $|E|$ is number of edges. \textbf{Note:} Sometimes people use $E$ to mean number of edges.
+
+\subsubsection*{Adjacency matrices and lists}
+
+\textbf{Adjacency matrix}: A 2D matrix where $A_{i,j}$ is the number of edges going from $i$ to $j$ (or the number of edges going from $j$ to $i$, depending on preference).\\
+Space required is $\Theta(n^2)$.
+
+\textbf{Adjacency list}: An array where the indices represent vertices and the value at index $i$ is a list of all the vertices adjacent to vertex $i$ (maps vertices to their neighbors).\\
+Space required is $\Theta(m + n)$, where $m$ is number of edges. $m$ is bounded by $n^2$ (assuming you can only have one edge from one vertex to another)
+
+If the matrix is sparse (not too many edges), adjacency lists are preferred.
+
+Time complexity comparison:\\
+\begin{tabular}{|r|c|c|}
+     \hline
+     & Adjacency matrices & Adjacency lists \\
+     \hline
+     Check if two vertices adjacent & $\Theta(1)$ & $O(n)$ \\
+     \hline
+     Find all edges & $\Theta(n^2)$ & $\Theta(m + n)$ \\
+     \hline
+     Find Eulerian cycle & $\Theta(n^2)$ & $\Theta(m)$ \\
+     \hline
+\end{tabular}
+
+\subsection{Eulerian Cycles}
+
+\subsubsection*{Terminology}
+
+\textbf{Walk}: A sequence of vertices and edges on a graph that you traverse.
+
+\textbf{Trail}: A walk in which all edges are distinct.
+
+\textbf{Path}: A trail in which all vertices (and edges) are distinct. \hl{TODO figure out the right definition, because by this definition, an Eulerian "path" wouldn't be a real path since vertices repeat}
+
+\textbf{Eulerian path} (a.k.a. Eulerian trail): A trail that visits every edge exactly once (may revisit vertices). The start and end vertices maybe different.
+
+\textbf{Eulerian cycle} (a.k.a. Eulerian circuit, Eulerian tour): An Eulerian path which starts and ends at the same vertex, i.e. a cycle that uses each edge exactly once.
+
+\textbf{Degree}: The degree of a vertex is how many edges are incident to it (equivalently, how many vertices are adjacent to it). A loop contributes 2 to the degree, one for each endpoint.
+
+\textbf{Strongly connected} (like connectedness but for directed graphs): Every vertex is reachable from every other vertex.
+
+\noindent\rule{\textwidth}{1pt}
+
+\subsection*{}
+
+\textbf{Condition for having Eulerian cycle}
+
+An undirected, connected graph $G = (V, E)$ has an \ul{Eulerian cycle if and only if every vertex has even degree}.
+
+Similarly, for directed graphs, the graph must be \emph{strongly} connected and the in degree of each vertex has to equal its out degree (need one edge to go to each vertex and another to go out from that vertex).
+
+\textbf{Condition for having Eulerian path}
+
+An undirected, connected graph $G = (V, E)$ has an Eulerian path if and only if exactly zero or two vertices have odd degree (not possible for only one vertex to have odd degree).
+
+Similarly, for directed graphs, the graph must be \emph{strongly} connected and either every the in degree equals the out degree for every vertex OR there is one vertex whose in degree is 1 greater than its out degree, there is one vertex whose in degree is 1 less than its out degree, and all the other vertices have equal in degrees and out degrees.

@@ -1,0 +1,9 @@
+\section{Approximating Summations}
+
+To get the degree of the high-order term, can get lower and upper bound. If the degrees of the lower and upper bounds match, then you have it. Techniques for getting lower and upper bounds:
+\begin{itemize}
+    \item Gauss's sum (sum of $i$) can be split into half to refine the lower bound.
+    \item For sum of $\frac 1 i$, the upper bound can be taken as $1 + \frac 1 2 + \frac 1 2 + \frac 1 4 + \frac 1 4 + \frac 1 4 + \frac 1 4 + ...$ (groups of powers of 2 so that each group adds up to 1). For that summation, upper bound is $\lg(n+1)$ since that's how many groups there are.
+    \item Lower and upper bounds for a monotonically increasing continuous function $f$:
+    \[\int_{m-1}^n f(x)\,dx \leq \sum_{i=m}^n f(x) \leq \int_m^{n+1} f(x)\,dx\]
+\end{itemize}

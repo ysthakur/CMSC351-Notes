@@ -1,0 +1,31 @@
+\section{Theta Notation and Order Notation}
+
+\textbf{Example:} Something like $\displaystyle \frac{n(n+1)(n+2)}{6}$ would be written as $\displaystyle \frac{n^3}{6} + \frac{n^2}{2} + \frac n 3$ so that we can see the highest-order term more clearly. When $n$ is very big, $\displaystyle \frac{n^3}{6} + \frac{n^2}{2} + \frac n 3 \approx \frac{n^3}{6} \approx{n^3}$, so the running time is $\Theta(n^3)$.
+
+Order notation is really about sets, e.g. $\Theta(n^3)$ is the set of all functions that run in cubic time.
+
+\textbf{Definition}: $\Theta(g(n)) = \set{f(n) \mid \exists c_1, c_2, n_0 \in \N^{\geq 1}, \forall n \geq n_0, 0 \leq c_1g(n) \leq f(n) \leq c_2g(n)}$\\
+($\Theta(g(n))$ is the set of all functions $f(n)$ such that after $n$ goes beyond some very large point (represented by $n_0$), $f(n)$ is basically the same as $g(n)$ (you can sandwich $f(n)$ between two constant multiples of $g(n)$))
+
+Basically, $\Theta$ is is both an upper and lower bound, while $O$ is just for upper bounds and $\Omega$ is just for lower bounds.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+    \hline
+    Analogy & Order \\
+    \hline
+    $=$ & $\Theta$ \\
+    $\leq$ & $O$ \\
+    $\geq$ & $\Omega$ \\
+    $<$ & $o$ \\
+    $>$ & $\omega$\\
+    \hline
+\end{tabular}
+\end{center}
+
+$f = O(g)$ means that functions that grow at the rate of $f$ grow slower than or at the same rate as functions that grow at the rate of $g$. ($\in$ would make more sense than $=$ since they're sets but mathematicians are weird). Some examples:
+\begin{flalign*}
+6n^3 &= O(2n^3)\\
+6n^3 &= O(n^4) \text{\space\space($n^3$ is less than $n^4$)}\\
+6n^3 &\neq \Omega(n^4)
+\end{flalign*}

@@ -1,0 +1,43 @@
+\section{Bucket Sort}
+
+Bucket sort is a distribution sort (as opposed to a comparison-based sort). It works by distributing numbers into buckets.
+
+Works well when the numbers being sorted are uniformly distributed.
+
+Average case linear time.
+
+\begin{enumerate}
+    \item Put into buckets based on first digit (you don't have to have 10 buckets, you can divide them up in any number of equal intervals).
+    \item Sort each bucket using bubblesort (other algorithms work too - you can even recursively use bucketsort).
+    \item Concatenate all the buckets together and you're done.
+\end{enumerate}
+
+Pseudocode:
+\begin{verbatim}
+k <- Number of buckets we want
+M <- max(A) - min(A)
+# Initialize the buckets
+for i in 0 to k-1:
+  bucket B[i] = Empty
+# Put each element into its bucket
+for i in 1 to n:
+  put A[i] into bucket B[floor(k * A[i] / M)]
+# Sort buckets
+for i in 0 to k-1:
+  bubble sort bucket B[i]
+# Concatenate the buckets
+return B[0] ++ B[1] ++ ... ++ B[k-1]
+\end{verbatim}
+
+\subsection*{Analysis}
+
+Time to initialize, fill up, and concatenate buckets is $\Theta(n)$\\
+Time to sort buckets depends on data:
+\begin{itemize}
+    \item If all $n$ elements might be in a single bucket instead of being distributed, then $\Theta(n^2)$
+    \item If $\sqrt n$ mediocre buckets each of size $\sqrt n$, then $\displaystyle \Theta(n^\frac 3 2)$
+\end{itemize}
+
+On average, the largest bucket has $\displaystyle \sim \frac{\ln n}{\ln \ln n}$ elements.
+
+Why Bubblesort? Because almost all buckets are small. Might even want a special sorting algorithm for each value of $n$.

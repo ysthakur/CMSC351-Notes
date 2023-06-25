@@ -1,0 +1,24 @@
+\section{Radix Sort}
+
+Use a stable sort (e.g. counting sort) to sort by last digit, then sort by second-to-last digit, then by third-to-last digit, and so on (move right to left).
+
+The \textbf{radix} ($R$) is the range of the letters or digits.\\
+$D$ is number of digits.
+
+For words, you would pad on right with blanks. For numbers, you would pad on left with 0s.
+
+Time for \hyperref[sec:Counting-Sort]{counting sort} inside radix sort: $\Theta(N + R)$\\
+Time for radix sort: $\Theta(D(N + R))$ (see below for time in terms of $S$)
+
+\subsection*{Optimizing time}
+
+$\Theta(D(N+R))$ has too many variables, so make new variable $S$ (size/range of one number) that combines $D$ and $R$.\\
+Let $S$ be $R^D$.
+
+$\lg S$ is the number of bits in each value.
+
+Tradeoff between radix and digits: If you increase the radix, you'll have fewer digits, so you'll have fewer passes, but each pass will take longer time.
+
+Optimal $R \approx \frac{\alpha N}{\ln N}$ (radix depends only on $N$, not $S$)\\
+Substituting that in, time is \colorbox{yellow}{$\displaystyle \Theta\paren{\frac{N\lg S}{\lg N}}$} (doesn't have to be $\log$ base 2, can be other bases too)\\
+If you think of it in terms of words, time is $\displaystyle \Theta\paren{\frac{wW}{\lg W}}$, where $w$ is bits in each word and $W$ is number of words.

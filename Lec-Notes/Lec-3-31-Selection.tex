@@ -1,0 +1,50 @@
+\section{Selection}
+
+Problem: In a list of $n$ values, find the $k$th smallest.
+
+The specific algorithm we use to solve this is quickselect (\hyperlink{https://en.wikipedia.org/wiki/Quickselect}{Wikipedia article}). Like quicksort, it involves finding a pivot and putting smaller elements on its left and larger elements on its right. Unlike quicksort, we only have to look on either the left or right side of the pivot, we don't have to deal with both sides.
+
+\subsection*{Algorithm}\label{subsec:Selection-Algorithm}
+
+\begin{enumerate}
+    \item Put the elements into a $5 \times \frac n 5$ grid (no comparisons)
+    \item Find the median of each column ($\frac n 5 \cdot 10 = 2n$ comparisons)
+    \item Within each column, move the small elements in the top, large elements in the bottom, and median to the middle (no comparisons)
+    \item Find the median of medians ($T(\frac n 5)$ comparisons)
+    \item Move the columns with small medians to the left, large medians to right, and median of medians to middle (no comparisons)
+    \item Partition using median of medians as pivot ($n-1$ comparisons)
+    \item Recursively call algorithm on proper side ($T(\frac{7n}{10})$ comparisons)
+\end{enumerate}
+
+\textbf{Why 5?}: It's the smallest odd number that gives you linear time performance.
+
+\hyperlink{https://en.wikipedia.org/wiki/Median_of_medians}{Wikipedia article} on median of medians algorithm is good.
+
+\subsection*{Pseudocode}
+
+Pseudocode for recursive in-place algorithm (tail-recursive, so can use non-recursive loop instead):
+\begin{verbatim}
+def selection(A, p, r, k):
+  s = approximate_median(A, p, r) # Like quicksort pivot
+  q = partition(A, p, r, s) # Like quicksort partition step
+  if k < q:
+    return selection(A, p, q - 1, k)
+  else if k > q:
+    return selection(A, q + 1, r, k)
+  else:
+    return q
+\end{verbatim}
+
+\subsection*{Analysis}
+
+Best case (assume picked pivot is always median): $T(1) = 0, T(n) = T\paren{\frac n 2} + n - 1$, so \underline{$T(n) \approx 2n$}\\
+Average case is also linear: $30n$ (see analysis below)\\
+Worst case is $O(n^2)$
+
+\subsubsection*{Recurrence}
+
+(see \hyperref[subsec:Selection-Algorithm]{Algorithm} for where the parts of the relation come from)
+
+$\displaystyle T(n) \leq 2n + T\paren{\frac n 5} + (n-1) + T\paren{\frac{7n}{10}}$
+
+Using constructive induction (guess $T(n) = an$), we get that \fbox{$T(n) \leq 30n$}

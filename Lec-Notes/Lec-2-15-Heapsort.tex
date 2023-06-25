@@ -1,0 +1,53 @@
+\section{Heapsort}\label{sec:heapsort-lecture}
+
+\textbf{Definition:} A \textbf{heap} is a rooted tree where every node has a value, and the value of a node is greater than or equal to the values of its children (in min-heaps, the value of each node is less than or equal to its children, but it seems Kruskal's going to ignore min-heaps).
+
+Heapsort is a kind of \textbf{selection sort} algorithm because it involves finding the next maximum at each step.
+
+For heapsort, all heaps are almost-complete binary trees.
+
+\textbf{Definition:} A \textbf{complete} tree has all its leaves on the same level (number of nodes is a power of 2). An \textbf{almost-complete} tree is a complete tree missing some leaves on the right side in the last level.
+
+Heaps are stored as arrays. If a node is at index $i$ in the array, then its left child is at index $2i$, its right child is at index $2i + 1$, and its parent is at $\floor{\frac i 2}$. This is very convenient for computers. Can sort in-place.
+
+Two phases:
+\begin{enumerate}
+    \item \textbf{Create heap:}\\
+    Build up sub-heaps from the bottom up. Start at the second-last level, because the last level is already all mini heaps.\\
+    Going from right to left (skipping the nodes in the last level), \textbf{sift down} each node to make a sub-heap (sifting down explained below)
+    \item \textbf{Finish:}
+    \begin{enumerate}
+        \item Swap the root node and the current last node (array is built up from right to left in-place)
+        \item \textbf{Sift down} that new root node
+        \begin{enumerate}
+            \item[(a)] If the current node (starts out as the new root node) is greater than or equal to its children, we're done
+            \item[(b)] Otherwise, swap it with the larger of its children (2 comparisons if done right)
+            \item[(c)] Repeat from that new, lower position
+        \end{enumerate}
+        \item Repeat until no more nodes left
+    \end{enumerate}
+\end{enumerate}
+
+\subsection*{Analysis}
+
+While building heap:\\
+Number of comparisons on $i$th level from \emph{the bottom} (bottom level is $i = 1$): $\displaystyle 2(i - 1)\frac{n}{2^i}$\\
+Comes out to approximately $2n + O(1)$
+
+While finishing:
+\begin{itemize}
+    \item Number of sift down operations: $n - 1 \sim n$
+    \item Number of levels per sift: $\sim \lg(n)$
+    \item Number of comparisons per level during sift: $2$
+    \item So total number of comparisons: $\sim 2n\lg n$\\
+    More accurate: $\displaystyle \sum_{i=0}^{n-1} 2\lg n$ (because size of tree shrinks with each step)\\
+    Can be written as $\displaystyle \sum_{i=1}^n 2\lg i = 2\lg(n!)$\\
+    Using \textbf{Stirling's formula} to approximate $n!$, that can be approximated as $2n\lg n + O(n)$
+\end{itemize}
+
+So total number of comparisons is $2n\lg n + O(n)$
+
+Heap creation time recurrence relation:
+\[H(n) = 2H\paren{\frac{n-1}{2}} + 2\lg n, H(1) = 0\]
+
+Binary search is $\lg n$ going down but $\lg\paren{\lg n}$ going up.

@@ -1,0 +1,52 @@
+\section{Parallel Computing}
+
+\subsection{Parallel Computing Models}
+
+Two types of parallel computers: direct connection machines and shared memory machines.
+
+\subsubsection*{Direct connection machines}
+
+Processors connected to neighbors.
+
+\subsubsection*{Shared memory machines}
+
+Different models:
+\begin{enumerate}
+    \item Exclusive Read, Exclusive Write (EREW): No two processors can read from or write to the same location at the same time.
+    \item Concurrent Read, Exclusive Write (CREW)
+    \item Concurrent Read, Concurrent Write (CRCW)\\
+        Need some kind of rule for concurrent writes, one of the following:
+        \begin{itemize}
+            \item All processors must write same value to location
+            \item May write different values but only one is actually written.
+                Which value to write could be chosen in one of the following ways:
+                \begin{itemize}
+                    \item Random
+                    \item Arbitrary (machine can choose anything, not the same as random)
+                    \item Priority
+                \end{itemize}
+            \item May write many values and all are written in some order. Again, need rule to determine order (random, arbitrary, or priority)
+        \end{itemize}
+\end{enumerate}
+
+\subsection{Parallel Algorithms}
+
+Define $T_P(N)$ to be the time for $P$ processors to solve problem of size $N$
+
+\textbf{Speedup} ($S_P(N)$): Sequential time divided by parallel time $\displaystyle \paren{\frac{T_1(N)}{T_P(N)}}$
+
+\textbf{Efficiency} ($E_P(N)$): Speedup divided by number of processors $\displaystyle \paren{\frac{S_P(N)}{P} = \frac{T_1(N)}{PT_P(N)}}$
+
+An algorithm is \textbf{efficient} if $E_P(N) = \Theta(1)$
+
+Lemma: $T_P(N) \leq T_1(N) \leq PT_P(N)$
+
+Corollary: $1 \leq S_P(N) \leq P$
+
+Corollary: $\displaystyle \frac 1 P \leq E_P(N) \leq 1$
+
+General phenomenon: When $N = P$ the parallel algorithm is fast but inefficient, but when $N >> P$ the parallel algorithm is fast and efficient.
+
+\subsubsection*{Summing}
+
+Video has a way to make the parallel algorithm efficient about 3 minutes before video ends.

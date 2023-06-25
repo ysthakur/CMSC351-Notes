@@ -1,0 +1,58 @@
+\section{Arithmetic}
+
+\subsection{Elementary Arithmetic}
+
+\subsubsection*{Addition}
+
+Pseudocode:
+\begin{verbatim}
+def add(x, y, z):
+  carry = 0
+  for i in range(0, n):
+    carry, z[i] = add_digits(x[i], y[i], carry)
+  z[n] = carry
+\end{verbatim}
+
+Adding two digits and a carry-in is an \textbf{atomic add} (\verb|add_digits| above).\\
+The time for an atomic add is $\alpha$, so the time for the algorithm above is $\alpha n$, where $n$ is the number of digits. You can't do better than linear time.
+
+\subsubsection*{Multiplication}
+
+Multiplying two digits is an \textbf{atomic multiply}.\\
+The time for an atomic multiply is $\mu$, so the time for the standard multiplication algorithm is $n^2\mu + 2n(n-1)\alpha$ (ignoring carries)\\
+\emph{Can} do better than quadratic time with Karatsuba's algorithm
+
+\subsection{Recursive multiplication}
+
+\subsubsection*{Two-digit multiplication}
+
+Multiplying two 2-digit numbers: $\underline{\mathrm{ab}} \times \underline{\mathrm{cd}} = (10a + b)(10c + d) = 10^2ac + 10(ad + bc) + bd$\\
+We can ``add'' $10^2ac$ and $bd$ by simply concatenating the result of $ac$ and the result of $bd$ together.\\
+Then we add $10(ad + bc)$ to that in the normal way.
+
+\emph{Every} multiplication is a two-digit multiplication with a large enough base.
+
+Recurrence for the time to multiply:
+\[M(1) = \mu, M(n) = 4M\paren{\frac n 2} + A(n) + A(n) = 4M\paren{\frac n 2} + 2\alpha n\]
+Un-recurrence-ified: $M(n) = n^2\mu + 2\alpha n(n-1)$ (same as standard algorithm)
+
+\subsection{Karatsuba's algorithm}
+
+Observe that we don't need $ad$ and $bc$ separately, we only need $ad + bc$. $ad + bc = (a + b)(c + d) - (ac + bd)$\\
+Now product is $10^2ac + 10((a + b)(c + d) - (ac + bd)) + bd$\\
+So we only multiply 3 times ($ac$, $bd$, and $(a + b)(c + d)$)
+
+Recurrence for time to multiply using Karatsuba's:
+\[M(1) = \mu, M(n) = 3M\paren{\frac n 2} + 2A\paren{\frac n 2} + 2A(n) + A(n) = 3M\paren{\frac n 2} + 4\alpha n\]
+
+Un-recurrence-ified: $M(n) = (\mu + 8\alpha)n^{\lg 3} - 8\alpha n$
+
+This has a larger constant factor but smaller exponent than standard algorithm, so better for large $n$ (big numbers).
+
+In our examples, an atomic value was base 10, but in real life, it's $2^{64}$.
+
+Better algorithms:
+\begin{itemize}
+    \item Toom-Cook: Generalizes Karatsuba's so you can get $\Theta(n^c)$ for $c$ arbitrarily close to 1. Trade-offs not completely understood.
+    \item Harvey-van der Hoeven: $\Theta(n \log n)$. Only useful for ludicrously large numbers.
+\end{itemize}

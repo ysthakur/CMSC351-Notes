@@ -1,0 +1,47 @@
+\section{Spanning Trees}
+
+\textbf{Tree:} A connected, acyclic graph.
+
+\textbf{Spanning tree:} A subset of the edges of the graph that includes all the vertices but has no cycles. We'll be talking only about undirected graphs.
+
+\textbf{Minimum spanning tree:} A spanning tree where the sum of the edge weights is minimized (if you don't have edge weights, this means you need to have as few edges as possible).
+
+Kruskal's algorithm and Prim's algorithm can be used to find an MST. Both are \textbf{greedy} (at each step, do whatever is locally optimal).
+
+\subsection{Kruskal's algorithm}
+
+Greedy algorithm that builds up the MST edge by edge.
+
+\begin{verbatim}
+edges <- sort edges by edge weight
+T <- empty tree # our result
+for edge in edges:
+  if adding edge to T doesn't result in cycle:
+    add edge to T
+return T
+\end{verbatim}
+
+This is $\Theta(E \log E)$ where $E$ is number of edges.\\
+
+\subsection{Prim's algorithm}
+\label{sec:prims-algorithm}
+
+Greedy algorithm that grows the MST starting at an arbitrary vertex and keeps track of distance from starting vertex. Similar to \hyperref[sec:dijkstras]{Djikstra's algorithm}, except we add the vertex closest to the current tree rather than the vertex closest to the source vertex.
+
+\begin{enumerate}
+    \item Start with any vertex $v$.
+    \item Initialize array of distances for each vertex (initially $\infty$ for all of them).
+    \item Repeat the following until all vertices are in your tree:
+        \begin{enumerate}
+            \item Of the edges that connect $v$ to another vertex not in the MST, pick the one that's closest to the tree.
+            \item Add that edge to the MST.
+            \item Update $v$ to a new vertex (in the MST) whose distance from the starting vertex is minimized.
+            \item Update the distance and predecessor for the new $v$ (the predecessor is the old $v$).
+        \end{enumerate}
+\end{enumerate}
+
+With a normal list that has 1s to represent unvisited vertices and 0s to represent visited vertices and an adjacency matrix to represent the graph itself, this is $\Theta(V^2)$ (better for dense graphs).
+
+Alternatively, can use min heap acting as priority queue to store unvisited vertices, with runtime of $\Theta(E \log V)$ (better for sparse graphs).
+
+See video for pseudocode of the min heap version.

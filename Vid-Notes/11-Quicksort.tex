@@ -1,0 +1,89 @@
+\section{Quicksort}
+
+The algorithm:
+\begin{enumerate}
+    \item Pick out some item, call it the \textbf{pivot}.\\
+    Note: Kruskal wants to use the last element as the pivot.
+    \item The \hyperref[sec:partition-step]{\textbf{partition}} step.
+    \item Repeat on the left side and the right side.
+\end{enumerate}
+
+\subsection*{The partition step}\label{sec:partition-step}
+
+Put all smaller items left, all larger items right, and put the pivot in between.
+\begin{itemize}
+    \item Process list from left to right. Group small values on the left, then large values, and unprocessed values will be at the end.
+    \item $i$ keeps track of where the small values end, $j$ keeps track of where the large values end. $p$ is the start of the subarray, $r$ is the end of the subarray.
+    \item At the start, $i = p-1$, $j$ really starts at $p$
+    \item When processing $A_{j+1}$:
+    \begin{itemize}
+        \item If it's larger than the pivot, then it's already in the right place, so just increment $j$.
+        \item If it's smaller than the pivot, exchange $A_{i+1}$ and $A_{j+1}$ so that it's now at the end of the small values group.\\
+        Then increment both $i$ and $j$.
+    \end{itemize}
+\end{itemize}
+
+Pseudocode:
+\begin{verbatim}
+function partition(A, p, r)
+  X = A[r]
+  i = p - 1
+  for j in p to r - 1:
+    if A[j] <= X:
+      i += 1
+      swap(A[i], A[j])
+  swap(A[i + 1], A[r])
+  return i + 1
+\end{verbatim}
+
+\subsection*{Best and Worst Case Comparison}
+
+$n-1$ comparisons in one partition step (compare every element to pivot)\\
+Total \# of comparisons in worst case (pivot on smallest/largest element): $\displaystyle \frac{n(n-1)}{2}$\\
+Total \# of comparisons in best case (pivot on median): $\displaystyle \sim n\lg n$
+
+\subsection*{Average Case Comparisons Approximation}
+
+Assume average case happens when pivot is the $n/4$th value (halfway between smallest value and median, or halfway between median and largest value)
+
+Recurrence for number of comparisons:
+\[S(0) = \begin{cases}
+    0 & \text{if } n = 0, 1 \\
+    S\paren{\frac n 4} + S\paren{\frac{3n}{4}} + (n - 1) & \text{otherwise}
+\end{cases}\]
+
+Total \# of comparisons: $\sim n\lg n$
+
+\subsection*{Exact Average Case Comparisons}
+
+Let $S(n)$ be the average number of comparisons\\
+Assume the first partition pivots on the $q$th smallest value\\
+Then the average number of comparisons to sort will be $(n-1) + S(q-1) + S(n-q)$
+
+Recurrence for average number of comparisons:
+\[S(0) = \begin{cases}
+    0 & \text{if } n = 0, 1 \\
+    \displaystyle (n-1) + \sum_{q=1}^n \frac 1 n \paren{S(q-1) + S(n-q)} & \text{otherwise}
+\end{cases}\]
+
+Using constructive induction, we get \fbox{$\sim 2n\ln n$}.
+
+\subsection*{Choosing Pivots}
+
+Risky to pivot on last element. Better choices are
+\begin{itemize}
+    \item Middle element
+    \item Median of first, middle, and last elements
+    \item Random element
+    \item Median of 3/5/7/whatever random elements
+\end{itemize}
+
+\subsection*{Comments on Quicksort Being In-Place}
+
+Quicksort needs $O(\log n)$ space for the call stack, so not constant memory. Best case is if pivot is smallest element, when call stack is empty.
+
+\textbf{Definition:} An algorithm is in-place if it uses $O(1)$ extra variables and (on average) $O(\log n)$ extra index variables.
+
+\textbf{Definition:} Since index variables use $O(\log n)$ bits, we can also say an algorithm is in-place if it uses $O(1)$ extra variables and (on average) $O((\log n)^2)$ extra bits.
+
+\underline{Not a fundamental definition}. Just one Kruskal uses?

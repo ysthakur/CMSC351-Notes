@@ -1,0 +1,112 @@
+\section{Parallel Merging}
+
+Merging 2 lists of sizes $M$ and $N$ on a sequential computer takes $M + N - 1$ comparisons ($2N - 1$ if same size)
+
+\subsubsection*{Merging with 2 processors}
+
+One processor starts comparing elements at the beginning, the other starts comparing elements at the end, meet in the middle.
+
+Works on machine with Exclusive Read Exclusive Write (EREW).
+
+Takes $\frac{M + N}{2}$ comparisons ($N$ if both lists are same size).
+
+Speedup is $\displaystyle \frac{2N - 1}{N} \approx 2 = P$\\
+Efficiency is $\sim 1$
+
+Unfortunately, this algorithm not easily generalizable to more processors.
+
+\subsubsection*{Merging with $N$ processors}
+
+This algorithm seems to require both lists being the same size.
+
+Assign one processor to every element in one of the arrays, then have each processor do binary search to figure out where to place its assigned element.
+
+Requires Concurrent Reads (CREW) because every processor will do binary search at the same time.
+
+Takes $\sim \lg N$ comparisons.
+
+Speedup: $\displaystyle \sim \frac{2P}{\lg P}$, Efficiency: $\displaystyle \sim \frac{2}{\lg P}$
+
+\subsubsection*{Merging when $P < N$}
+
+Watch Rec 22.1 around 13:00
+
+Requires Concurrent Read Exclusive Write (CREW) machine.
+
+Algorithm:
+\begin{enumerate}
+    \item In both arrays, mark elements $\displaystyle \floor{\frac{2N}{P}}, 2\floor{\frac{2N}{P}}, 3\floor{\frac{2N}{P}}, ...$ (these elements are sort of separators creating $\frac P 2$ groups of elements in each array)
+    \item In parallel, binary search each marked element into the other list, creating about $P$ small merging problems. This takes $\sim \lg N$ comparisons.
+    \item In parallel, do each small merging problem, assigning two processors to each problem. This takes $\sim \frac{2N}{P}$ comparisons.
+\end{enumerate}
+
+Total comparisons: $\displaystyle \sim \frac{2N}{P} + \lg N$
+
+To be efficient, need the number of comparisons to be $\displaystyle O(\frac{2N}{P})$, which requires $N = \Omega(P \lg P)$.
+
+\subsection{Parallel Mergesort}
+
+At level $i$, do $2^i - 1$ comparisons.
+
+Need $\frac N 2$ processors.
+
+Total comparisons: $\sim 2N$
+
+Speedup: $\displaystyle \sim \frac{\lg P}{2}$, Efficiency: $\displaystyle \sim \frac{\lg P}{2P}$
+
+\subsubsection*{Mergesort for Large $N$ (first try)}
+
+Assume $N \geq P$
+
+\begin{enumerate}
+    \item Assign $\frac N P$ numbers per processor. Each processor sorts its numbers sequentially ($\displaystyle \frac N P \lg\paren{\frac N P}$ for each processor).
+    \item In parallel, pairwise merge lists until there is one sorted list ($\frac{2N}{P}$ for first level from bottom, $\frac{4N}{P}$ for second level from bottom, $\frac{8N}{P}$ for next level, and so on).
+\end{enumerate}
+Total comparisons for merges (not counting sorting at the bottom): $\displaystyle \sim 2N$\\
+Total comparisons (including sorting at bottom): $\displaystyle \sim \frac{N \lg N}{P} + 2N$
+
+To be efficient, we need $\displaystyle N = 2^{\Omega(P)}$
+
+$N$ needs to be exponential in the number of processors, so this is only efficient for very very large $N$. Can improve by using parallel merges:
+
+\subsubsection*{Mergesort using Parallel Merge}
+
+Assume $P = \frac N 2$
+
+The first level from the bottom requires 2 processors and does $\lg 2$ comparisons, second level requires 4 processors and does $\lg 4$ comparisons, third level requires 8 and does $\lg 8$ comparisons, and so on.
+
+Total comparisons: $\displaystyle \sim \frac{(\lg N)^2}{2}$
+
+Speedup: $\displaystyle \sim \frac{4P}{\lg P}$, Efficiency: $\displaystyle \sim \frac{4}{\lg P}$
+
+\subsubsection*{Mergesort for Large $N$ (second try)}
+
+Assume $N \geq P$
+
+Same as before, but this time, merge in parallel (requires CREW)
+
+\begin{enumerate}
+    \item Assign $\frac N P$ numbers per processor. Each processor sorts its numbers sequentially ($\displaystyle \frac N P \lg\paren{\frac N P}$ for each processor).
+    \item In parallel, pairwise merge lists until there is one sorted list ($\frac{N}{P} + \lg 2$ for first level from bottom, $\frac{N}{P} + \lg 4$ for second level from bottom, $\frac{N}{P} + \lg 8$ for next level, and so on).
+\end{enumerate}
+
+Total comparisons for merges (not counting sorting at the bottom): $\displaystyle \sim \frac{N \lg P}{P} + \frac{(\lg P)^2}{2}$\\
+Total comparisons (including sorting at bottom): $\displaystyle \sim \frac{N \lg N}{P} + \frac{(\lg P)^2}{2}$
+
+To be efficient, need $N = \Omega(P \lg P)$ (doesn't need to be huge, unlike before)
+
+\subsubsection*{Sorting with Optimal Merging Algorithm}
+
+Can merge two lists each of size $N$ on CREW PRAM with $P \leq N$ processors in $\sim 2\frac N P + \lg \lg P$ comparison steps.
+
+So can sort on CREW PRAM with $\displaystyle \sim \frac{N \lg N}{P} + (\lg P)\lg \lg P$ comparison steps.
+
+This algorithm is efficient for $N = \Omega(P \lg \lg P)$
+
+\subsection*{Pipelining}
+
+One processor can start merging as soon as processors on bottom levels are done with elements at the start, even if they're not fully finished.
+
+With pipelining, mergesort is $\displaystyle \Theta\paren{\frac{N \lg N}{P}}$ if $N \geq P$
+
+Efficient for $N = \Omega(P)$

@@ -1,0 +1,20 @@
+\section{Triangulated Polygons}
+
+A triangulated polygon is either
+
+\begin{itemize}
+    \item A polygon with three sides
+    \item A polygon with more than three sides with a straight line between two corners not next to each other forming two polygons sharing that new line such that each new polygon is triangulated
+\end{itemize}
+
+Structural induction proofs are inherently strong induction proofs.
+
+\subsubsection*{Proof by structural induction}
+
+\textbf{Theorem:} A triangular polygon with $n$ sides can be 3-colored.
+
+\textbf{Base case:} Triangle
+
+\textbf{Inductive Step:} Consider a triangulated polygon with $n$ sides\\
+Since it's triangulated, it can be split into two triangulated polygons with fewer sides.\\
+By the inductive hypothesis, both sides are 3-colorable, so color them.\\

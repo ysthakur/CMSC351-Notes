@@ -1,0 +1,45 @@
+\section{NP-Completeness}
+
+Classes:
+\begin{itemize}
+    \item \textbf{P}: $O(n^k)$ with constant $k$ (decision problems solvable in polynomial time)
+    \item \textbf{E}: $O(b^n)$ with constant $b$ (exponential time)
+    \item \textbf{EXP/EXPTIME}: $O(e^{n^k})$ with constant $k$ (\emph{also} exponential time)
+    \item \textbf{NP}: Problems where YES answers are verifiable in polynomial time (can use a ``certificate'')
+    \item \textbf{NP-hard}: Problems that are at least as hard as the hardest problems in NP
+\end{itemize}
+
+P is a subset of NP (no one knows if the reverse is true too)
+
+NP is further partitioned into:
+\begin{itemize}
+    \item \textbf{P}: The easy problems
+    \item \textbf{NP-complete}: The hard problems (NP-complete is the intersection of NP and NP-hard)
+    \item \textbf{NPI} (NP Intermediate): The intermediate problems
+\end{itemize}
+
+Recording 20.3 has an example of reduction (reducing 2-component coloring to 1-component coloring).
+
+Recording 20.4 shows that Formula SAT and Circuit SAT are equivalent.
+
+\textbf{Proofs of NP-Completeness (Rec 20.5)}
+
+In order to show that some problem $A$ is NP-Complete:
+\begin{itemize}
+    \item Show that $A$ is in NP
+    \item For some NP-complete problem $B$, show that $B \leq_{\mathrm P} A$
+\end{itemize}
+
+\subsection*{The Structure of NP (Rec 20.6)}
+
+If a problem $A$ is in P, then its complement $\Bar{A}$ is also in P.
+
+Graph isomorphism is in NP but not known if it's in Co-NP or not (probably in Co-NP though)
+
+P $\subseteq$ NP $\subseteq$ PSPACE $\subseteq$ EXPTIME $\subseteq$ EXPSPACE
+
+\textbf{Undecidable problems}: Can't even solve (e.g. halting problem)
+
+Recording 20.7 has equivalence of decision and optimization for coloring problem
+
+

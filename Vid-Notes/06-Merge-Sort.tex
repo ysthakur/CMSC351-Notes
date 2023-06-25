@@ -1,0 +1,40 @@
+\section{Merge sort}
+
+Mergesort is a \textbf{divide-and-conquer} algorithm (splits up problem into subproblems)
+
+\subsection*{Merging}
+
+Merge sort uses merging. Possible to do in-place but not practical, so we won't do it.
+
+Number of comparisons when merging arrays $A$ and $B$:
+\begin{itemize}
+    \item Best case: $n$ (when $A_n < B_1$ or $B_n < A_1$)
+    \item Worst case: $2n - 1$ (when $A_n$ and $B_n$ are the two largest elements)
+    \item Average case: $\displaystyle 2n - 2 + \frac{2}{n+1}$
+\end{itemize}
+
+In general, number of comparisons if $m \leq n$ ($m$ is size of $A$, $n$ is size of $B$) (same algorithm as before):
+\begin{itemize}
+    \item Best case: $m$ (when $A_m < B_1$)
+    \item Worst case: $m + n - 1$ ($A_m$ and $B_n$ are the two largest elements)
+    \item Better algorithms exist when $m$ is much smaller than $n$. For example, when $m = 1$, you can basically use binary search ($\lg n$)
+\end{itemize}
+
+\subsection*{Pseudocode}
+
+\begin{verbatim}
+def mergesort(A, p, r):
+  if p < r:
+    q = floor((p + r) / 2)       # Find middle of list
+    mergesort(A, p, q)           # Sort left half
+    mergesort(A, q + 1, r)       # Sort right half
+    merge(A, (p, q), (q + 1, r)) # Merge the two halves
+\end{verbatim}
+
+\subsection*{Analysis}
+
+We'll use tree method to analyze mergesort.
+
+Number of comparisons at depth $i$ is $n - 2^i$ (root node at depth 0), except for the lowest level, where it's 0 because those sublists have either 0 or 1 elements.\\
+Number of levels in total is $\lg n$ but the lowest level has 0 comparisons\\
+So total number of comparisons is $\displaystyle \sum_{i=0}^{\lg n - 1} n - 2^i = n\lg n - n + 1$

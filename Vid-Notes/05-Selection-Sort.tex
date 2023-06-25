@@ -1,0 +1,16 @@
+\section{Selection Sort}
+
+Start building up a sorted part on the right side of the array. At each iteration, get the biggest of the unsorted elements on the left and put it at the start of the sorted part on the right.
+
+\begin{verbatim}
+for i in n downto 2
+  k = 1
+  for j in 2 to i
+    if A[j] > A[k]
+      k = j
+  swap(A[k], A[i])
+\end{verbatim}
+
+Number of comparisons (best/worst/average are all same): $\displaystyle \frac{n(n-1)}{2}$
+
+Number of moves: $n - 1$

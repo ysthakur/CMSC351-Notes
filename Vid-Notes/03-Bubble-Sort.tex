@@ -1,0 +1,42 @@
+\section{Bubble Sort}
+
+Type of "selection sort" algorithm (not to be confused with \emph{the} Selection Sort algorithm)
+
+Pseudocode:
+\begin{verbatim}
+for i = n downto 2:
+  for j = 1 to i - 1:
+    if A[j] > A[j + 1]:    # Comparison
+      swap(A[j], A[j + 1]) # Exchange
+\end{verbatim}
+
+Number of comparisons: $\displaystyle \sum_{i=2}^n\sum_{j=1}^{i-1} 1 = \frac{n(n-1)}{2} = \binom{n}{2}$
+
+Number of exchanges:
+\begin{itemize}
+    \item Best case: If already sorted, then no exchanges will happen
+    \item Worst case: If already sorted in reverse, then exchange will always happen, so same as number of comparisons: $\frac{n(n-1)}{2}$
+    \item Average case: Each permutation is equally likely.\\
+    Need to count number of \textbf{inversions} (aka \textbf{transpositions}), which is a pair of elements out of order\\
+    Number of inversions is same as number of exchanges\\
+    Number of inversions is just half the number of pairs, which is $\displaystyle \frac 1 2 \binom n 2 = \frac{n(n-1)}{4}$
+\end{itemize}
+
+\subsection*{Modified Bubble Sort}
+
+Keep track of where last swap was made in last iteration, and you won't have to go beyond that next iteration.
+
+\begin{verbatim}
+i = n - 1
+while i > 0:
+  t = 1
+  for j = 1 to i:
+    if A[j] > A[j + 1]:
+      swap(A[j], A[j + 1])
+      t = j
+  i = t - 1
+\end{verbatim}
+
+\subsection*{Cocktail Shaker Sort}
+
+Instead of going left to right and starting back at the left again, it goes left to right, then right to left, then left to right, like it's being shaken.

@@ -1,0 +1,20 @@
+\section{Upper and Lower Bounds}
+
+For maximum contiguous sum, a particular algorithm could be $\Theta(n^3)$ or $\Theta(n)$ or something else, but the problem itself would be written as $O(n^3)$ or $O(n)$ just in case there's a faster algorithm (the optimal algorithm is $\Theta(n)$).
+
+\textbf{Comparison model:} Can only ask questions about how one element compares to another.
+
+\begin{itemize}
+    \item Finding smallest/largest element: $n - 1$ comparisons
+    \item Finding two smallest/largest elements: $n + \lg n + O(1)$ comparisons
+    \item Finding smallest and largest elements: \hl{TODO look it up}
+    \item Merging two sorted lists each of size $n$: $2n - 1$ comparisons
+    \item Searching a sorted list: $\lg n + O(1)$ comparisons
+    \item Sorting: $n \lg n + O(n)$ comparisons
+\end{itemize}
+
+Number of leaves in a decision tree for sorting $N$ elements: $N!$\\
+Height of such a decision tree is $\geq \lg(N!) \geq N \lg N - N\lg e + O(1)$
+
+Lower bound for sorting algorithm for $N$ elements: $N \lg N - N\lg e + O(1)$ comparisons\\
+Upper bound for sorting (mergesort where $N$ is power for 2): $N\lg N - N + 1$ comparisons
